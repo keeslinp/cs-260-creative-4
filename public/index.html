@@ -4,37 +4,47 @@
 <head>
   <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css" />
-  <title>Vue Tickets</title>
+  <title>WikiBlog</title>
 </head>
 
 <body>
   <div id="app">
-    <div class="header">
-      <h1>Ticket System</h1>
-    </div>
-
-    <div class="content">
-      <form @submit.prevent="addTicket">
-        <input v-model="addedName" placeholder="Name"></p>
-        <textarea v-model="addedProblem"></textarea>
-        <br />
-        <button type="submit">Submit</button>
-      </form>
-
-      <h3>Tickets</h3>
-      <div v-for="ticket in tickets">
-        <hr>
-        <div class="ticket">
-          <div class="problem">
-            <p>{{ticket.problem}}</p>
-            <p><i>-- {{ticket.name}}</i></p>
-          </div>
-          <div class="delete">
-            <button @click="deleteTicket(ticket)" class="delete">Delete</button>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="header">
+    <h1>WikiBlog</h1>
+  </div>
+	    <div class="new-bar">
+		    <button v-on:click="newPost">New</button>
+	    </div>
+	    <div class="posts" v-for="post in orderedPosts">
+	        <div v-if="post.edit">
+		      <form @submit.prevent="post._id ? savePost(post) : addPost(post)">
+			<input v-model="post.title" placeholder="Title"></p>
+			<textarea v-model="post.content"></textarea>
+			<br />
+			<button type="submit">Submit</button>
+			<button type="reset" v-on:click="getPosts">Cancel</button>
+		      </form>
+		</div>
+		<div>
+			<div class="title">
+				<div>
+					<h3>{{post.title}}</h4>
+					created: {{post.createDate | formatDate}}
+					<i v-if="post.updateDate">
+						edited: {{post.updateDate | formatDate}}
+					</i>
+				</div>
+				<div>
+				<button v-if="!post.edit" v-on:click="editPost(post._id)">edit</button>
+				<button v-on:click="deletePost(post)">delete</button>
+				</div>
+			</div>
+			<div class="content">{{post.content}}</div>
+		</div>
+	    </div>
+	<div>
+		<a href="https://github.com/keeslinp/cs-260-creative-4">Github link</a>
+	</div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js" integrity="sha256-mpnrJ5DpEZZkwkE1ZgkEQQJW/46CSEh/STrZKOB/qoM=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.7/vue.js" integrity="sha256-g+Q8DFAmG5+eyRPSydX0LY4TfjsL11XSDrIGerbbEdA=" crossorigin="anonymous"></script>
