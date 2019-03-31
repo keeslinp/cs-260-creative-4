@@ -15,7 +15,7 @@ var app = new Vue({
 	},
 	computed: {
 		orderedPosts() {
-			Object.values(this.posts).sort((e1, e2) => e1.createDate > e2.createDate);
+			return Object.values(this.posts).sort((e1, e2) => e1.createDate < e2.createDate);
 		},
 	},
 	methods: {
